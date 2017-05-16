@@ -9,7 +9,7 @@ from ..models import MarketOrder
 class StatsV1(Resource):
     def get(self):
         added_last_hour = MarketOrder.query.filter(MarketOrder.ingest_time >= datetime.utcnow() - timedelta(hours=1)).count()
-        added_last_day = MarketOrder.query.filter(MarketOrder.ingest_time >= datetime.utcnow() - timedelta(day=1)).count()
+        added_last_day = MarketOrder.query.filter(MarketOrder.ingest_time >= datetime.utcnow() - timedelta(days=1)).count()
         active_orders = MarketOrder.query.filter(MarketOrder.expire_time >= datetime.utcnow()).count()
 
         return {
