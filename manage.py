@@ -1,12 +1,9 @@
 
 
-from flask_script import Manager, Server
 from flask_migrate import MigrateCommand
+from flask_script import Manager, Server
 
-import commands
-
-from albionmarket_backend import create_app
-
+from albionmarket_backend import create_app, commands
 
 app = create_app()
 manager = Manager(app)

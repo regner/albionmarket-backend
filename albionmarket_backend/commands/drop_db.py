@@ -2,7 +2,7 @@
 
 from flask_script import prompt_bool, Command
 
-from albionmarket_backend import extensions
+from .. import extensions
 
 
 class DropDB(Command):

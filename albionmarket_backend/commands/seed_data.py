@@ -4,7 +4,7 @@ import json
 
 from flask_script import Command
 
-from albionmarket import models
+from .. import models
 
 
 class SeedData(Command):
