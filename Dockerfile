@@ -6,7 +6,7 @@ WORKDIR /app/
 
 RUN apt-get update -qq \
     && apt-get upgrade -y -qq \
-    && apt-get install -y -qq build-dep python-dev python3-psycopg2 \
+    && apt-get install -y -qq python-dev python3-psycopg2 \
     && pip install -qU pip setuptools gunicorn psycopg2 \
     && pip install -r requirements.txt
 
