@@ -7,8 +7,7 @@ from ..models import MarketOrder
 
 order = {
     'id': fields.Integer,
-    'type_id': fields.String,
-    'group_id': fields.String,
+    'item_id': fields.String,
     'location_id': fields.Integer,
     'tier': fields.Integer,
     'quality_level': fields.Integer,
