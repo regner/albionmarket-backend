@@ -1,0 +1,6 @@
+.DS_STORE
+.idea/
+*.iml
+secret.yaml
+venv/
+scripts/*.json

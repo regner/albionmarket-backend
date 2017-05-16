@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: albionmarket-backend
+  namespace: albionmarket
+spec:
+  minReadySeconds: 20
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxUnavailable: 1
+        maxSurge: 1
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: albionmarket-backend
+    spec:
+      containers:
+        - name: albionmarket-backend
+          image: us.gcr.io/personal-projects-1369/albionmarket/backend:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 30m
+              memory: 250Mi
+          ports:
+            - containerPort: 8000
+          env:
+            - name: SQLALCHEMY_DATABASE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: albionmarket-backend
+                  key: database_uri
