@@ -7,6 +7,8 @@ flask-restful==0.3.5
 flask-migrate==2.0.0
 flask-sqlalchemy==2.1
 
+redis==2.10.5
+
 # Tests
 pytest==3.0.7
 pytest-cov==2.4.0

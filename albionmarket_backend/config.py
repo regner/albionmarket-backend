@@ -10,5 +10,8 @@ class AppConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql://postgres@192.168.99.100:32768/postgres')
 
-    CACHE_TYPE = 'simple'
+    CACHE_TYPE = 'redis'
     CACHE_DEFAULT_TIMEOUT = 600
+    CACHE_REDIS_HOST = os.environ.get('CACHE_REDIS_HOST', 'redis')
+    CACHE_REDIS_PORT = int(os.environ.get('CACHE_REDIS_PORT', '6379'))
+    CACHE_REDIS_PASSWORD = os.environ.get('CACHE_REDIS_PASSWORD', 'pleasechangethis')

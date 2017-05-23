@@ -35,3 +35,10 @@ spec:
                 secretKeyRef:
                   name: albionmarket-backend
                   key: database_uri
+            - name: CACHE_REDIS_HOST
+              value: am-redis-redis
+            - name: CACHE_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: am-redis-redis
+                  key: redis-password
