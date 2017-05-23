@@ -1,6 +1,5 @@
 
 
-from flask import request
 from datetime import datetime
 from flask_restful import Resource, reqparse, fields, marshal_with
 
