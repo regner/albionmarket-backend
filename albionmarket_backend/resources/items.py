@@ -3,7 +3,7 @@
 from flask_restful import Resource, fields, marshal_with
 
 from ..models import Item
-
+from ..extensions import cache
 
 item = {
     'id': fields.String,
@@ -20,6 +20,7 @@ item_list = {
 
 class ItemsV1(Resource):
     @marshal_with(item_list)
+    @cache.cached(timeout=600)
     def get(self):
         items = Item.query
 

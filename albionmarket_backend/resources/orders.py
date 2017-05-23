@@ -1,6 +1,6 @@
 
 
-from flask_restful import Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Resource, reqparse, fields, marshal_with
 
 from ..models import MarketOrder
 
@@ -40,7 +40,7 @@ class OrdersV1(Resource):
         if args['type'] is not None:
             filters['type_id'] = args['type']
 
-        orders = MarketOrder.query.filter_by(**filters)
+        orders = MarketOrder.query.filter_by(**filters).limit(50)
 
         return {
             'orders': orders,

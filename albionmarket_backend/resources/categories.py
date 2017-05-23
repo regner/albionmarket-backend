@@ -3,6 +3,7 @@
 from flask_restful import Resource, fields, marshal_with
 
 from ..models import Category, SubCategory
+from ..extensions import cache
 
 
 category = {
@@ -18,6 +19,7 @@ category_list = {
 
 class CategoriesV1(Resource):
     @marshal_with(category_list)
+    @cache.cached(timeout=600)
     def get(self):
         return {
             'categories': Category.query,
