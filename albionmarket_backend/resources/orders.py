@@ -1,5 +1,6 @@
 
 
+from datetime import datetime
 from flask_restful import Resource, reqparse, fields, marshal_with
 
 from ..models import MarketOrder
@@ -38,9 +39,14 @@ class OrdersV1(Resource):
             filters['location_id'] = args['location']
 
         if args['type'] is not None:
-            filters['type_id'] = args['type']
+            filters['item_id'] = args['type']
 
-        orders = MarketOrder.query.filter_by(**filters).order_by(MarketOrder.amount).limit(50)
+        orders = MarketOrder\
+            .query\
+            .filter(MarketOrder.expire_time > datetime.utcnow()) \
+            .filter_by(**filters)\
+            .order_by(MarketOrder.amount)\
+            .limit(50)
 
         return {
             'orders': orders,
