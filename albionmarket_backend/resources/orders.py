@@ -40,7 +40,7 @@ class OrdersV1(Resource):
         if args['type'] is not None:
             filters['type_id'] = args['type']
 
-        orders = MarketOrder.query.filter_by(**filters).limit(50)
+        orders = MarketOrder.query.filter_by(**filters).order_by(MarketOrder.amount).limit(50)
 
         return {
             'orders': orders,
