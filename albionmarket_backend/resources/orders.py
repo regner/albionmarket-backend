@@ -1,9 +1,12 @@
 
 
+from flask import request
 from datetime import datetime
 from flask_restful import Resource, reqparse, fields, marshal_with
 
+from .. import utils
 from ..models import MarketOrder
+from ..extensions import cache
 
 
 order = {
@@ -26,6 +29,7 @@ order_list = {
 
 
 class OrdersV1(Resource):
+    @cache.cached(key_prefix=utils.cache.make_cache_key)
     @marshal_with(order_list)
     def get(self):
         parser = reqparse.RequestParser()

@@ -19,8 +19,8 @@ item_list = {
 
 
 class ItemsV1(Resource):
+    @cache.cached()
     @marshal_with(item_list)
-    @cache.cached(timeout=600)
     def get(self):
         items = Item.query
 

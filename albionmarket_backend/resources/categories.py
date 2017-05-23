@@ -18,8 +18,8 @@ category_list = {
 
 
 class CategoriesV1(Resource):
+    @cache.cached()
     @marshal_with(category_list)
-    @cache.cached(timeout=600)
     def get(self):
         return {
             'categories': Category.query,

@@ -4,3 +4,4 @@
 secret.yaml
 venv/
 scripts/*.json
+*.pyc
