@@ -2,72 +2,47 @@
 
 from datetime import datetime
 
-from sqlalchemy.sql import func
-from flask_restful import Resource, fields, marshal_with
+from flask_restful import Resource, abort
 
-from ..models import MarketOrder
-
-
-order = {
-    'id': fields.Integer,
-    'item_id': fields.String,
-    'location_id': fields.Integer,
-    'tier': fields.Integer,
-    'quality_level': fields.Integer,
-    'enchantment_level': fields.Integer,
-    'price': fields.Integer,
-    'amount': fields.Integer,
-    'expire_time': fields.DateTime(dt_format='iso8601'),
-    'ingest_time': fields.DateTime(dt_format='iso8601'),
-    'last_updated': fields.DateTime(dt_format='iso8601'),
-}
-
-order_stats = {
-    'total_volume': fields.Integer,
-    'price_average': fields.Float,
-    'price_minimum': fields.Float,
-    'price_maximum': fields.Float,
-    'order_count': fields.Integer,
-}
-
-order_list = {
-    'orders': fields.List(fields.Nested(order)),
-    'stats': fields.Nested(order_stats),
-}
-
-
-def fetch_item_market_stats(item_id):
-    stats = MarketOrder \
-        .query \
-        .filter(MarketOrder.expire_time > datetime.utcnow()) \
-        .filter_by(item_id=item_id) \
-        .with_entities(
-            func.sum(MarketOrder.amount).label('total_volume'),
-            func.avg(MarketOrder.price).label('price_average'),
-            func.min(MarketOrder.price).label('price_minimum'),
-            func.max(MarketOrder.price).label('price_maximum'),
-            func.count(MarketOrder.id).label('order_count'),
-        ).one()
-
-    return {
-        'total_volume': stats.total_volume,
-        'price_average': stats.price_average,
-        'price_minimum': stats.price_minimum,
-        'price_maximum': stats.price_maximum,
-        'order_count': stats.order_count,
-    }
+from .orders_stats import fetch_item_market_stats
+from ..models import MarketOrder, Item
 
 
 class OrdersV1(Resource):
-    @marshal_with(order_list)
     def get(self, item_id):
+        item = Item.query.get(item_id)
+
+        if item is None:
+            abort(404)
+
         orders = MarketOrder\
             .query\
             .filter(MarketOrder.expire_time > datetime.utcnow())\
             .filter_by(item_id=item_id)\
             .order_by(MarketOrder.price)
 
-        return {
-            'orders': orders,
+        data = {
+            'item': {
+                'id': item.id,
+                'name': item.name,
+                'category_id': item.category_id,
+                'sub_category_id': item.sub_category_id,
+                'tier': item.tier,
+            },
+            'orders': [{
+                'id': x.id,
+                'item_id': x.item_id,
+                'location_id': x.location_id,
+                'tier': x.tier,
+                'quality_level': x.quality_level,
+                'enchantment_level': x.enchantment_level,
+                'price': x.price,
+                'amount': x.amount,
+                'expire_time': x.expire_time.isoformat(),
+                'ingest_time': x.ingest_time.isoformat(),
+                'last_updated': x.last_updated.isoformat(),
+            } for x in orders],
             'stats': fetch_item_market_stats(item_id)
-        }, 200
+        }
+
+        return data, 200

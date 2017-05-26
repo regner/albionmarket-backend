@@ -1,6 +1,6 @@
 
 
-from flask_restful import Resource, fields, marshal_with
+from flask_restful import Resource, fields
 
 from ..models import Category, SubCategory
 from ..extensions import cache
@@ -19,9 +19,16 @@ category_list = {
 
 class CategoriesV1(Resource):
     @cache.cached()
-    @marshal_with(category_list)
     def get(self):
-        return {
-            'categories': Category.query,
-            'sub_categories': SubCategory.query,
-        }, 200
+        data = {
+            'categories': [{
+                'id': x.id,
+                'name': x.name,
+            } for x in Category.query],
+            'sub_categories': [{
+                'id': x.id,
+                'name': x.name,
+            } for x in SubCategory.query],
+        }
+
+        return data, 200

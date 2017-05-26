@@ -1,29 +1,23 @@
 
 
-from flask_restful import Resource, fields, marshal_with
+from flask_restful import Resource
 
-from ..models import Item
 from ..extensions import cache
-
-item = {
-    'id': fields.String,
-    'name': fields.String,
-    'category_id': fields.String,
-    'sub_category_id': fields.String,
-    'tier': fields.Integer,
-}
-
-item_list = {
-    'items': fields.List(fields.Nested(item)),
-}
+from ..models import Item
 
 
 class ItemsV1(Resource):
     @cache.cached()
-    @marshal_with(item_list)
     def get(self):
         items = Item.query
+        data = {
+            'items': [{
+                'id': x.id,
+                'name': x.name,
+                'category_id': x.category_id,
+                'sub_category_id': x.sub_category_id,
+                'tier': x.tier,
+            } for x in items],
+        }
 
-        return {
-            'items': items,
-        }, 200
+        return data, 200
