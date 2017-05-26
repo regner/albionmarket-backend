@@ -26,7 +26,9 @@ class OrdersV1(Resource):
                 'id': item.id,
                 'name': item.name,
                 'category_id': item.category_id,
+                'category_name': item.category.name,
                 'sub_category_id': item.sub_category_id,
+                'sub_category_name': item.sub_category.name,
                 'tier': item.tier,
             },
             'orders': [{
