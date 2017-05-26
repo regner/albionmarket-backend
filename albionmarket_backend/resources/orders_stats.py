@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from flask_restful import Resource, marshal_with
+from flask_restful import Resource
 from sqlalchemy.sql import func
 
 from ..models import MarketOrder
@@ -21,11 +21,13 @@ def fetch_item_market_stats(item_id):
             func.count(MarketOrder.id).label('order_count'),
         ).one()
 
+
+    print(stats.total_volume)
     return {
-        'total_volume': stats.total_volume,
-        'price_average': stats.price_average,
-        'price_minimum': stats.price_minimum,
-        'price_maximum': stats.price_maximum,
+        'total_volume': stats.total_volume if stats.total_volume else 0,
+        'price_average': stats.price_average if stats.price_average else 0,
+        'price_minimum': stats.price_minimum if stats.price_minimum else 0,
+        'price_maximum': stats.price_maximum if stats.price_maximum else 0,
         'order_count': stats.order_count,
     }
 
