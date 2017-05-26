@@ -33,7 +33,6 @@ class OrdersV1(Resource):
                 'id': x.id,
                 'item_id': x.item_id,
                 'location_id': x.location_id,
-                'tier': x.tier,
                 'quality_level': x.quality_level,
                 'enchantment_level': x.enchantment_level,
                 'price': x.price,
