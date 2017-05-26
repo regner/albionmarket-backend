@@ -21,8 +21,6 @@ def fetch_item_market_stats(item_id):
             func.count(MarketOrder.id).label('order_count'),
         ).one()
 
-
-    print(stats.total_volume)
     return {
         'total_volume': stats.total_volume if stats.total_volume else 0,
         'price_average': stats.price_average if stats.price_average else 0,
