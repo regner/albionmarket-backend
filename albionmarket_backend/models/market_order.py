@@ -16,7 +16,7 @@ class MarketOrder(db.Model):
     quality_level = db.Column(db.Integer, nullable=False)
     enchantment_level = db.Column(db.Integer, nullable=False)
 
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.BigInteger, nullable=False)
     amount = db.Column(db.Integer, nullable=False)
 
     expire_time = db.Column(db.DateTime, nullable=False)
