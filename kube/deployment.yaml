@@ -42,3 +42,8 @@ spec:
                 secretKeyRef:
                   name: am-redis-redis
                   key: redis-password
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: albionmarket-backend
+                  key: sentry_dsn
