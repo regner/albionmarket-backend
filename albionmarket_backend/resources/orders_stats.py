@@ -23,7 +23,7 @@ def fetch_item_market_stats(item_id):
 
     return {
         'total_volume': stats.total_volume if stats.total_volume else 0,
-        'price_average': float(stats.price_average) if stats.price_average else 0,
+        'price_average': round(float(stats.price_average), 2) if stats.price_average else 0,
         'price_minimum': stats.price_minimum if stats.price_minimum else 0,
         'price_maximum': stats.price_maximum if stats.price_maximum else 0,
         'order_count': stats.order_count,
