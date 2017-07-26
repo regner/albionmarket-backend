@@ -1,13 +1,13 @@
 """empty message
 
-Revision ID: 31e3b39c211f
+Revision ID: b9b99d5383c8
 Revises: None
-Create Date: 2017-05-15 21:29:30.382991
+Create Date: 2017-07-25 20:53:36.288371
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '31e3b39c211f'
+revision = 'b9b99d5383c8'
 down_revision = None
 
 from alembic import op
@@ -42,8 +42,9 @@ def upgrade():
     sa.Column('location_id', sa.Integer(), nullable=False),
     sa.Column('quality_level', sa.Integer(), nullable=False),
     sa.Column('enchantment_level', sa.Integer(), nullable=False),
-    sa.Column('price', sa.Integer(), nullable=False),
+    sa.Column('price', sa.BigInteger(), nullable=False),
     sa.Column('amount', sa.Integer(), nullable=False),
+    sa.Column('is_buy_order', sa.Boolean(), nullable=True),
     sa.Column('expire_time', sa.DateTime(), nullable=False),
     sa.Column('ingest_time', sa.DateTime(), nullable=False),
     sa.Column('last_updated', sa.DateTime(), nullable=False),

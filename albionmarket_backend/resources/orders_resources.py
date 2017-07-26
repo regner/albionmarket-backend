@@ -14,10 +14,8 @@ class OrdersResourcesV1(Resource):
         results = []
 
         for item in resources:
-            stats = fetch_item_market_stats(item.id)
-
-            results.append({
-                'stats': stats,
+            stats = {
+                'stats': fetch_item_market_stats(item.id),
                 'item': {
                     'id': item.id,
                     'name': item.name,
@@ -27,7 +25,9 @@ class OrdersResourcesV1(Resource):
                     'sub_category_name': item.sub_category.name,
                     'tier': item.tier,
                 },
-            })
+            }
+
+            results.append(stats)
 
         data = {
             'resources': results

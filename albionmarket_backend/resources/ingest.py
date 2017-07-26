@@ -28,6 +28,19 @@ class IngsetV1(Resource):
             # that no item ID ever has an @ in it for other purposes... please don't hate me SI.
             item_id = order_json['ItemTypeId'].split('@')[0]
 
+            if order_json['AuctionType'] == 'request':
+                is_buy_order = True
+
+            elif order_json['AuctionType'] == 'offer':
+                is_buy_order = False
+
+            else:
+                abort(400, description='Invalid AuctionType.')
+
+            # I don't know why, but everything in Albion now seems to have its price
+            # padded with four zeros. Need to remove account for this.
+            price = int(order_json['UnitPriceSilver'] / 10000)
+
             try:
                 MarketOrder.create_or_update(
                     order_id=order_json['Id'],
@@ -35,9 +48,10 @@ class IngsetV1(Resource):
                     location_id=args['LocationId'],
                     quality=order_json['QualityLevel'],
                     enchantment=order_json['EnchantmentLevel'],
-                    price=order_json['UnitPriceSilver'],
+                    price=price,
                     amount=order_json['Amount'],
                     expire=dateutil.parser.parse(order_json['Expires']),
+                    is_buy_order=is_buy_order,
                 )
 
             except KeyError:
