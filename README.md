@@ -2,7 +2,7 @@
 Backend for the [Albion Market](https://albion-market.com/) website.
 
 
-# Related Projects
+# Related Projects Amazing Projects
 - [Albion Market - Frontend](https://github.com/Regner/albionmarket-frontend/)
 - [Albion Market - Client](https://github.com/Regner/albionmarket-client/)
 
